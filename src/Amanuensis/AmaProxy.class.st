@@ -49,3 +49,18 @@ AmaProxy >> simulateTransaction [
 
 	self announcer announce: AmaTransactionStarted new
 ]
+
+{ #category : #'performing service' }
+AmaProxy >> startListening [
+	mutex critical: [ 
+		self isRunning ifTrue: [ ^ self ].
+		self isRunning: true].
+	
+]
+
+{ #category : #services }
+AmaProxy >> stopListening [
+	mutex critical: [ 
+		self isRunning ifFalse: [ ^ self ].
+		self isRunning: false ].
+]

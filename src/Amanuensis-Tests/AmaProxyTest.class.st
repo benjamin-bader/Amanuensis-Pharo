@@ -38,3 +38,24 @@ AmaProxyTest >> testListenForTransactions [
 
 	self assert: called equals: true
 ]
+
+{ #category : #tests }
+AmaProxyTest >> testStartListening [
+
+	| p |
+	p := AmaProxy new.
+	self assert: p isRunning equals: false.
+	p startListening.
+	self assert: p isRunning equals: true
+]
+
+{ #category : #tests }
+AmaProxyTest >> testStopListening [
+
+	| p |
+	p := AmaProxy new.
+	p startListening.
+	self assert: p isRunning equals: true.
+	p stopListening.
+	self assert: p isRunning equals: false.
+]
