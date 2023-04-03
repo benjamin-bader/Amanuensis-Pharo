@@ -5,7 +5,9 @@ Class {
 	#name : #AmaProxy,
 	#superclass : #Object,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'mutex',
+		'isRunning'
 	],
 	#category : #Amanuensis
 }
@@ -13,7 +15,25 @@ Class {
 { #category : #accessing }
 AmaProxy >> announcer [
 
-	^ announcer ifNil: [ announcer := Announcer new ]
+	mutex critical: [^ announcer ifNil: [ announcer := Announcer new ] ]
+]
+
+{ #category : #initialization }
+AmaProxy >> initialize [
+
+	super initialize.
+	mutex := Mutex new.
+	isRunning := false.
+]
+
+{ #category : #accessing }
+AmaProxy >> isRunning [
+	mutex critical: [ ^ isRunning ]
+]
+
+{ #category : #'private - accessing' }
+AmaProxy >> isRunning: aBoolean [ 
+	mutex critical: [ isRunning := aBoolean ]
 ]
 
 { #category : #'action handling' }

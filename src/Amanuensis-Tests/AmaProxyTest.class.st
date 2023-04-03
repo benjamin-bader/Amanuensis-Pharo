@@ -13,7 +13,17 @@ AmaProxyTest >> testAnnouncer [
 	| p |
 	p := AmaProxy new.
 	self deny: p announcer isNil.
-	self assert: p announcer identicalTo: p announcer.
+	self assert: p announcer identicalTo: p announcer
+]
+
+{ #category : #tests }
+AmaProxyTest >> testIsRunning [
+
+	| p |
+	p := AmaProxy new.
+	self assert: p isRunning equals: false.
+	p isRunning: true.
+	self assert: p isRunning equals: true
 ]
 
 { #category : #tests }
@@ -21,10 +31,10 @@ AmaProxyTest >> testListenForTransactions [
 
 	| p called |
 	p := AmaProxy new.
-	called := false.	
+	called := false.
 	p listenForTransactions: [ :tx | called := true ].
-	
+
 	p simulateTransaction.
-	
-	self assert: called equals: true.
+
+	self assert: called equals: true
 ]
